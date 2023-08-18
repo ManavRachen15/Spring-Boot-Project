@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @RestController
@@ -31,6 +32,9 @@ public class Main {
 
     }
 
+    record UpdateCustomerRequest(String name, String email, Integer age){
+
+    }
     @PostMapping
     public void addCustomer(@RequestBody NewCustomerRequest request){
         Customer customer = new Customer();
@@ -45,6 +49,24 @@ public class Main {
         customerRepository.deleteById(id);
     }
 
+    @PutMapping("{customerId}")
+    public void updatingCustomer(@PathVariable("customerId") Integer customerId, @RequestBody UpdateCustomerRequest request) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            if (request.name != null) {
+                customer.setName(request.name);
+            }
+            if (request.email != null) {
+                customer.setEmail(request.email);
+            }
+            if (request.age != null) {
+                customer.setAge(request.age);
+            }
+            customerRepository.save(customer);
+        }
+    }
 //    @GetMapping("/greet")
 //    public GreetResponse greet(){
 //        GreetResponse response = new GreetResponse(
