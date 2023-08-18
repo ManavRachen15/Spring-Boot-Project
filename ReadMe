@@ -1,0 +1,21 @@
+have docker running
+
+storing data use postman to view in json format
+docker exec -it postgres bash
+psql -U amigoscode
+\l
+\c customer
+\dt -lists of relations
+INSERT INTO customer (id, name, email, age)
+VALUES (nextval('customer_id_sequence'),'Manav', 'Manav@gmail.com', 23);
+select * from customer;
+
+use postman to get(to retrieve) post(to add customers) delete(delete) new customers to the database
+localhost:8080/api/v1/customers
+add "/<idNumber>" to delete customer
+{
+        "name": "candice",
+        "email": "candice@gmail.com",
+        "age": 55
+}
+template
